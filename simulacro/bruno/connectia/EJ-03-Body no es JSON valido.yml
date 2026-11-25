@@ -6,9 +6,6 @@ info:
 http:
   method: POST
   url: "{{baseURL}}/api/admin/documents"
-  body:
-    type: json
-    data: -d '{malo'
   auth: inherit
 
 settings:

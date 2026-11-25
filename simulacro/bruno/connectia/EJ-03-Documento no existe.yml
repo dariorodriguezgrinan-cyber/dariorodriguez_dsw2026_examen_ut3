@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{baseURL}}{{rutaAva}}/documents/no-existe"
+  url: "{{baseURL}}/api/v1/admin/documents/no-existe"
   auth: inherit
 
 settings:

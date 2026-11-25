@@ -5,13 +5,13 @@ info:
 
 http:
   method: GET
-  url: "{{baseURL}}/api/v1/admin/documents?page=1&limit=bhjbh"
+  url: "{{baseURL}}/api/v1/admin/documents?page=1&limit=1"
   params:
     - name: page
       value: "1"
       type: query
     - name: limit
-      value: bhjbh
+      value: "1"
       type: query
   auth: inherit
 

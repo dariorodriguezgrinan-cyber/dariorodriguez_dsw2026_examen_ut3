@@ -2,6 +2,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import * as documentsService from '../services/documentsService.js';
 import { AppError } from '../errors/AppError.js';
+import { ResourceNotFoundError } from '../errors/ResourceNotFoundError.js';
 
 export function list(req: Request, res: Response, next: NextFunction): void {
   try {
@@ -24,12 +25,27 @@ export function list(req: Request, res: Response, next: NextFunction): void {
   }
 }
 
-export function getById(req: Request, res: Response, next: NextFunction): void {
+/*export function getById(req: Request, res: Response, next: NextFunction): void {
   try {
     const document = documentsService.getById(String(req.params.documentId));
 
     if (!document) {
       throw new AppError(404, 'NOT_FOUND', 'NOT_FOUND');
+    }
+
+    res.json({ data: document });
+  } catch (err) {
+    next(err);
+  }
+}*/
+
+//Aquí el ${req.params.documentId} da el id de los parametros de la request 
+export function getById(req: Request, res: Response, next: NextFunction): void {
+  try {
+    const document = documentsService.getById(String(req.params.documentId));
+
+    if (!document) {
+      throw new ResourceNotFoundError(404, `Document with id '${req.params.documentId}' not found`, String(req.params.documentId), 'RESOURCE_NOT_FOUND');
     }
 
     res.json({ data: document });
@@ -67,6 +83,40 @@ export function update(req: Request, res: Response, next: NextFunction): void {
 
     if (
       (title !== undefined &&
+        (typeof title !== 'string' || title.trim().length === 0))) {
+      res.status(400).json({
+        "error": "INVALID_TITLE",
+        "message": "Title must be a non-empty string"
+      })
+      return;
+    }
+    if (
+      (description !== undefined && typeof description !== 'string')) {
+      throw new AppError(400, 'INVALID_DOCUMENT', 'BAD_REQUEST');
+    }
+
+    const document = documentsService.update(
+      String(req.params.documentId),
+      { title, description },
+    );
+
+    if (!document) {
+      throw new AppError(404, 'NOT_FOUND', 'NOT_FOUND');
+    }
+
+    res.json({ data: document });
+  } catch (err) {
+    next(err);
+  }
+
+}
+
+/*export function update(req: Request, res: Response, next: NextFunction): void {
+  try {
+    const { title, description } = req.body ?? {};
+
+    if (
+      (title !== undefined &&
         (typeof title !== 'string' || title.trim().length === 0)) ||
       (description !== undefined && typeof description !== 'string')
     ) {
@@ -85,5 +135,6 @@ export function update(req: Request, res: Response, next: NextFunction): void {
     res.json({ data: document });
   } catch (err) {
     next(err);
-  }
-}
+  }*/
+
+

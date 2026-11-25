@@ -6,9 +6,6 @@ info:
 http:
   method: POST
   url: "{{baseURL}}/api/v1/admin/documents"
-  body:
-    type: json
-    data: "{}"
   auth: inherit
 
 settings:

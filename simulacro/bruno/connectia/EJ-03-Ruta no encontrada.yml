@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{baseURL}}/nonexistent"
+  url: /nonexistent
   auth: inherit
 
 settings:
