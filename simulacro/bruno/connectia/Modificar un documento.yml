@@ -1,0 +1,25 @@
+info:
+  name: Modificar un documento
+  type: http
+  seq: 6
+
+http:
+  method: PATCH
+  url: "{{baseURL}}/api/v1/admin/documents/{{documentId}}"
+  body:
+    type: json
+    data: '{"title": "Otro título con patch"}'
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -1,0 +1,25 @@
+info:
+  name: Hacer una pregunta
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{baseURL}}/api/v1/questions"
+  body:
+    type: json
+    data: '{"question": "hola"}'
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

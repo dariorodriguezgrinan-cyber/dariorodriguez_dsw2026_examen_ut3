@@ -1,0 +1,19 @@
+info:
+  name: EJ-03/Body no es JSON valido
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{baseURL}}/api/admin/documents"
+  body:
+    type: json
+    data: -d '{malo'
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
