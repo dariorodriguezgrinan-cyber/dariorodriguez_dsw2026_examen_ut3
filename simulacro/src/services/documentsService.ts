@@ -64,14 +64,17 @@ export function update(
 ): Document | undefined {
   const document = getById(id);
 
+// Si el aviso no existe, devolvemos undefined para que el controlador lance 404
   if (!document) {
     return undefined;
   }
 
+  // Solo actualizamos title si viene definido en changes
   if (changes.title !== undefined) {
     document.title = changes.title;
   }
 
+  // Solo actualizamos description si viene definido en changes
   if (changes.description !== undefined) {
     document.description = changes.description;
   }
