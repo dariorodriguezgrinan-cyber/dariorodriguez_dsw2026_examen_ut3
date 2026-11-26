@@ -2,11 +2,16 @@ import type { NextFunction, Request, Response } from 'express';
 
 import { env } from '../config/env.js';
 import { AppError } from '../errors/AppError.js';
+import { AppErrorDescription } from '../errors/AppErrorDescription.js'
+
+
 
 // Express recognises an error handler because it has FOUR parameters.
 // `_next` is never used, but it must be there: with three parameters Express
 // would treat this function as a normal middleware and never hand it errors.
 export function errorHandler(
+  
+  
   err: Error,
   req: Request,
   res: Response,
@@ -14,7 +19,8 @@ export function errorHandler(
   _next: NextFunction,
 ): void {
   const isProduction = env.NODE_ENV === 'production';
-
+  
+  if (env.DEPURACION === 1)  
   console.log('[errorHandler]', req.requestId, err.message);
 
   console.error(
@@ -38,6 +44,11 @@ export function errorHandler(
     return;
   }
 
+   if (err instanceof AppErrorDescription) {
+    res.status(400).json({ error: 'INVALID_DESCRIPTION', message: 'Description must not contain ERROR' });
+    return;
+  }
+  
   // Anything else is unexpected: 500, without internal details in production.
   res.status(500).json({
     error: 'INTERNAL_ERROR',
